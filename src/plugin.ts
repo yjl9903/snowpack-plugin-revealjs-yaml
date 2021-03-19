@@ -48,7 +48,7 @@ class Parser {
         result.push(this.parseSection(doc[sectionName]));
       }
     }
-    return result.join('\n').replace('`', '\\`');
+    return result.join('\n').replace(/\\/g, '\\\\').replace(/`/g, '\\`');
   }
 
   private createElement(
