@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2017",
+    "lib": ["esnext", "dom"],
+    "moduleResolution": "Node",
+    "module": "commonjs",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "declarationDir": "types"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules"
+  ]
+}

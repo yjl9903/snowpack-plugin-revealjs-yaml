@@ -1,0 +1,38 @@
+{
+  "name": "@yjl9903/snowpack-plugin-revealjs-yaml",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "author": "XLor",
+  "license": "MIT",
+  "keywords": [
+    "snowpack",
+    "reveal",
+    "slide"
+  ],
+  "files": [
+    "dist",
+    "types",
+    "src",
+    ".gitignore",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write --parser typescript src/**/*.ts"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.0",
+    "@types/node": "^14.14.35",
+    "prettier": "^2.2.1",
+    "snowpack": "^3.0.13",
+    "typescript": "^4.2.3"
+  },
+  "peerDependencies": {
+    "snowpack": "^3.0.13"
+  },
+  "dependencies": {
+    "js-yaml": "^4.0.0"
+  }
+}
