@@ -7,11 +7,24 @@ interface SectionConfig {
   style?: Record<string, string | number>;
 }
 
-interface CustomSectionElement {
+interface CustomTextElement {
   type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div';
   content: string;
   className?: string[];
   style?: Record<string, string | number>;
+}
+
+interface ImgElement {
+  type: 'img';
+  src: string;
+  className?: string[];
+  style?: Record<string, string | number>;
+}
+
+interface UlElement {
+  type: 'ul';
+  className?: string[];
+  contents: string[];
 }
 
 type SectionElement =
@@ -19,7 +32,9 @@ type SectionElement =
   | number
   | boolean
   | ({ type: 'config' } & SectionConfig)
-  | CustomSectionElement;
+  | CustomTextElement
+  | ImgElement
+  | UlElement;
 
 type SlideSubSection = Array<SectionElement>;
 
@@ -54,9 +69,19 @@ class Parser {
   private createElement(
     content: string,
     tag = this.defaultSectionElementTag,
-    className = this.defaultSectionElementClass
+    className = this.defaultSectionElementClass,
+    style: Record<string, string | number> = {},
+    attr: Record<string, string | number> = {}
   ) {
-    return `<${tag} class="${className.join(' ')}">${content}</${tag}>`;
+    const extraAttrs: string[] = [];
+    for (const key in attr) {
+      if (attr.hasOwnProperty(key)) {
+        extraAttrs.push(`${key}="${attr[key]}"`);
+      }
+    }
+    return `<${tag} class="${className.join(' ')}" ${extraAttrs.join(
+      ' '
+    )}>${content}</${tag}>`;
   }
 
   private parseSubSection(slideSubSection: SlideSubSection): string {
@@ -85,10 +110,31 @@ class Parser {
                 (key) => key === sectionElement.type
               ) !== -1
             ) {
-              const customSectionElement = sectionElement as CustomSectionElement;
+              const customSectionElement = sectionElement as CustomTextElement;
               return this.createElement(
                 customSectionElement.content,
                 customSectionElement.type,
+                customSectionElement.className ?? []
+              );
+            } else if (sectionElement.type === 'img') {
+              const customSectionElement = sectionElement as ImgElement;
+              return this.createElement(
+                '',
+                'img',
+                customSectionElement.className ?? [],
+                {},
+                { src: sectionElement.src }
+              );
+            } else if (sectionElement.type === 'ul') {
+              const customSectionElement = sectionElement as UlElement;
+              const text = customSectionElement.contents
+                .map((item) => {
+                  return `<li>${item}</li>`;
+                })
+                .join('\n');
+              return this.createElement(
+                text,
+                'ul',
                 customSectionElement.className ?? []
               );
             } else if (
