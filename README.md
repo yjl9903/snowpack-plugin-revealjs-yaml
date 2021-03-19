@@ -41,7 +41,7 @@ plugins: [
 ]
 ```
 
-You can create custom element rule in the plugin option.
+You can create custom element rule in the plugin option. Implement function `fn(el) { ... }` to generate html text. 
 
 ### Create new section
 
@@ -60,7 +60,25 @@ Problem:
     - Just output $A + B$! 
 ```
 
-Then, import this file in the `index.js`, and use `Inserter` to replace the `<!-- Insert Point 0 -->` in the `index.html`.
+Then, create insert point in the `index.html`. You can also replace the index `0` to create multiple insert point.
+
+```html
+<div class="reveal">
+  <div class="slides">
+    <section>
+      <h3>Hello World!</h3>
+    </section>
+    <!-- Insert Point 0 -->
+    <section>
+      <h3>Thank you!</h3>
+    </section>
+    <!-- Insert Point 1 -->
+  </div>
+</div>
+<script type="module" src="/dist/index.js"></script>
+```
+
+Finally, import yaml file in the `index.js`, and use `Inserter` to insert the generated content into the specified point in the `index.html`.
 
 ```js
 import ProblemSlide from './problem.yaml'
